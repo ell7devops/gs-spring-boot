@@ -84,7 +84,7 @@ stages:
 
       displayName: 'Publish Artifact: drop'
 
-        targetPath: $(Build.ArtifactStagingDirectory)
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
 
       condition: succeededOrFailed()
 
