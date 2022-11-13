@@ -42,7 +42,7 @@ stages:
 
       inputs:
 
-        mavenPomFile: 'app/pom.xml'
+        mavenPomFile: app/pom.xml
 
 
 
@@ -59,7 +59,7 @@ stages:
 
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-      condition: succeededOrFailed()
+    
 
 
 
@@ -71,9 +71,7 @@ stages:
 
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
 
-        ArtifactName: 'drop'
 
-        publishLocation: 'Container'
 
 
 
