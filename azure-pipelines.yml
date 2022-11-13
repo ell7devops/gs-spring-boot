@@ -62,12 +62,10 @@ stages:
 
 
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
+    - task: PublishPipelineArtifact@0
+      displayName: 'Publish pipeline artifacts'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        condition: succeededOrFailed()
-
+        targetPath: $(Build.ArtifactStagingDirectory)
 
 
 - stage: Deploy
@@ -79,31 +77,32 @@ stages:
   condition: succeeded()
 
   jobs:
-
-  - job: 
-
+  - deployment: DeployLinuxWebApp
     displayName: Deploy Linux Web App
-
+    environment: 'development'
     pool: 
-
       vmImage: $(vmImageName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@1
+            displayName: 'Download Pipeline Artifact'
+            inputs:
+              buildType: 'current'
+          - task: AzureRmWebAppDeployment@4
 
-    steps:
-    
-    - task: AzureRmWebAppDeployment@4
+            displayName: 'Deploy Azure App Service'
 
-      displayName: 'Deploy Azure App Service'
 
-      inputs:
+            inputs:
 
-        inputs:
+              ConnectionType: 'AzureRM'
 
-        ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1 (4f396e97-0b47-46ed-870f-d45e73eef667)'
 
-        azureSubscription: 'Azure subscription 1 (4f396e97-0b47-46ed-870f-d45e73eef667)'
+              appType: 'webAppLinux'
 
-        appType: 'webAppLinux'
+              WebAppName: 'java-maven-app-erindi'
 
-        WebAppName: 'java-maven-app-erindi'
-
-        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/target/*.jar'
+              packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
