@@ -54,7 +54,7 @@ stages:
 
         SourceFolder: '$(System.DefaultWorkingDirectory)'
 
-        Contents: '**/*.jar'
+        Contents: '**/target/*.jar'
 
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
@@ -124,4 +124,4 @@ stages:
 
         WebAppName: 'java-maven-app-erindi'
 
-        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/*.jar'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
