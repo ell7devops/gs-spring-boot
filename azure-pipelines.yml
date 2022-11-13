@@ -94,6 +94,7 @@ stages:
       displayName: 'Download Pipeline Artifact'
       inputs:
         buildType: 'current'
+        artifactName: drop
 
     - task: AzureRmWebAppDeployment@4
 
