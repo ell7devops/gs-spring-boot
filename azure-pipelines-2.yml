@@ -1,0 +1,117 @@
+trigger:
+
+- none  #master
+
+
+
+variables:
+
+  # Agent VM image name
+
+  vmImageName: 'ubuntu-latest'
+
+
+
+
+
+stages:
+
+- stage: Build
+
+  displayName: Build stage
+
+  jobs:
+
+  - job: MavenPackageAndPublishArtifacts
+
+    displayName: Maven Package and Publish Artifacts
+
+    pool:
+
+      vmImage: $(vmImageName)
+
+      demands: maven
+
+    
+
+    steps:
+
+    - task: Maven@4
+
+      displayName: 'Maven Package'
+
+      inputs:
+
+        mavenPomFile: 'app/pom.xml'
+
+        codeCoverageToolOption: 'Cobertura'
+
+
+
+    - task: CopyFiles@2
+
+      displayName: 'Copy Files to artifact staging directory'
+
+      inputs:
+
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+
+        Contents: '**/*.jar)'
+
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      condition: succeededOrFailed()
+
+
+
+
+
+    - task: PublishBuildArtifacts@1
+
+      inputs:
+
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+
+        ArtifactName: 'drop'
+
+        publishLocation: 'Container'
+
+
+
+- stage: Deploy
+
+  displayName: Deploy stage
+
+  dependsOn: Build
+
+  condition: succeeded()
+
+  jobs:
+
+  - job: 
+
+    displayName: Deploy Linux Web App
+
+    pool: 
+
+      vmImage: $(vmImageName)
+
+    steps:
+
+    - task: AzureRmWebAppDeployment@4
+
+      displayName: 'Deploy Azure App Service'
+
+      inputs:
+
+        inputs:
+
+        ConnectionType: 'AzureRM'
+
+        azureSubscription: 'Azure subscription 1 (4f396e97-0b47-46ed-870f-d45e73eef667)'
+
+        appType: 'webAppLinux'
+
+        WebAppName: 'java-maven-app-erindi'
+
+        packageForLinux: '$(System.DefaultWorkingDirectory)/_Java Maven App-CI/drop/app/target/gs-spring-boot-0.1.0.jar'
