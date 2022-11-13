@@ -44,7 +44,6 @@ stages:
 
         mavenPomFile: 'app/pom.xml'
 
-        codeCoverageToolOption: 'Cobertura'
 
 
 
