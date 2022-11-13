@@ -105,4 +105,4 @@ stages:
 
         WebAppName: 'java-maven-app-erindi'
 
-        packageForLinux: '$(System.DefaultWorkingDirectory)/_Java Maven App-CI/drop/app/target/gs-spring-boot-0.1.0.jar'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
