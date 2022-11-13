@@ -89,6 +89,11 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
+   
+     - task: DownloadPipelineArtifact@1
+      displayName: 'Download Pipeline Artifact'
+      inputs:
+        buildType: 'current'
 
     - task: AzureRmWebAppDeployment@4
 
@@ -105,4 +110,4 @@ stages:
         appType: 'webAppLinux'
 
         WebAppName: 'java-maven-app-erindi'
-        packageForLinux: '$(Build.ArtifactStagingDirectory)/drop/**/target/*.jar'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
