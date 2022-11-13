@@ -1,6 +1,5 @@
 trigger:
 
-
 - none  #master
 
 
@@ -47,27 +46,29 @@ stages:
 
 
 
-
     - task: CopyFiles@2
 
       displayName: 'Copy Files to artifact staging directory'
 
       inputs:
+
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        
+
         Contents: '**/target/*.jar'
 
-        TargetFolder: $(Build.ArtifactStagingDirectory)
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    
-    - task: PublishBuildArtifacts@1
+      condition: succeededOrFailed()
+
+
+
+    - task: PublishPipelineArtifact@1
+
+      displayName: 'Publish pipeline artifacts'
 
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop1'
-        
 
-
+        targetPath: '$(Build.ArtifactStagingDirectory)'
 
 
 
@@ -90,13 +91,16 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
-   
+
     - task: DownloadPipelineArtifact@1
+
       displayName: 'Download Pipeline Artifact'
+
       inputs:
+
         buildType: 'current'
-        artifactName: 'drop1'
-        targetPath: '$(System.ArtifactsDirectory)'
+
+    
 
     - task: AzureRmWebAppDeployment@4
 
@@ -113,4 +117,5 @@ stages:
         appType: 'webAppLinux'
 
         WebAppName: 'java-maven-app-erindi'
+
         packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
