@@ -63,8 +63,9 @@ stages:
     - task: PublishBuildArtifacts@1
 
       inputs:
-
-        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop1'
+        
 
 
 
@@ -94,7 +95,7 @@ stages:
       displayName: 'Download Pipeline Artifact'
       inputs:
         buildType: 'current'
-        artifactName: drop
+        artifactName: drop1
 
     - task: AzureRmWebAppDeployment@4
 
