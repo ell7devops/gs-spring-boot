@@ -103,6 +103,7 @@ stages:
         buildType: 'current'
 
         artifactName: drop
+        itemPattern: '**/target/*.jar'
 
         targetPath: '$(System.ArtifactsDirectory)'
 
@@ -124,4 +125,4 @@ stages:
 
         WebAppName: 'java-maven-app-erindi'
 
-        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop/*.jar'
