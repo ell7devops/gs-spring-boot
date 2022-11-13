@@ -54,7 +54,7 @@ stages:
 
         SourceFolder: '$(System.DefaultWorkingDirectory)'
 
-        Contents: '**/target/*.jar'
+        Contents: '**/*.jar'
 
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
@@ -69,6 +69,8 @@ stages:
       inputs:
 
         targetPath: '$(Build.ArtifactStagingDirectory)'
+
+        artifact: drop
 
 
 
@@ -100,6 +102,10 @@ stages:
 
         buildType: 'current'
 
+        artifactName: drop
+
+        targetPath: '$(System.ArtifactsDirectory)'
+
     
 
     - task: AzureRmWebAppDeployment@4
@@ -118,4 +124,4 @@ stages:
 
         WebAppName: 'java-maven-app-erindi'
 
-        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/target/*.jar'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop/**/*.jar'
