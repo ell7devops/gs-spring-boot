@@ -95,7 +95,8 @@ stages:
       displayName: 'Download Pipeline Artifact'
       inputs:
         buildType: 'current'
-        artifactName: drop1
+        artifactName: 'drop1'
+        targetPath: '$(System.ArtifactsDirectory)'
 
     - task: AzureRmWebAppDeployment@4
 
