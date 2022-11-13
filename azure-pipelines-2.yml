@@ -54,7 +54,7 @@ stages:
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
         
-        Contents: '**/target/*.jar)'
+        Contents: '**/target/*.jar'
 
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
